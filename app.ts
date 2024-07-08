@@ -5,6 +5,8 @@ import cookieParser from "cookie-parser";"cookie-parser";
 require("dotenv").config();
 import {ErrorMiddleware} from "./middleware/error";   //importing error middleware
 
+import userRouter from "./routes/user.routes";
+
 
 //body parser
 app.use(express.json({limit:"50mb"}));
@@ -15,6 +17,8 @@ app.use(cookieParser());
 //cors = cross origin resources
 app.use(cors({
     origin:process.env.ORIGIN}));
+
+app.use("/api/v1", userRouter);
 
 //testing api
 app.get("/test", (req:Request,res:Response,next:NextFunction)=>{
