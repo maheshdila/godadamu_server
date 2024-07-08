@@ -31,21 +31,22 @@ jobs:
 
     - name: Set up environment variables
       run: |
-        touch .env
-        echo "PORT=6969" >> .env
-        echo "ORIGIN=${{ secrets.ORIGIN }}" >> .env
-        echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> .env
-        echo "DB_URL=${{ secrets.DB_URL }}" >> .env
-        echo "CLOUD_NAME=${{ secrets.CLOUD_NAME }}" >> .env
-        echo "CLOUD_API_KEY=${{ secrets.CLOUD_API_KEY }}" >> .env
-        echo "CLOUD_SECRET_KEY=${{ secrets.CLOUD_SECRET_KEY }}" >> .env
-        echo "REDIS_URL=${{ secrets.REDIS_URL }}" >> .env
-        echo "ACTIVATION_SECRET=${{ secrets.ACTIVATION_SECRET }}" >> .env
-        echo "SMTP_HOST=${{ secrets.SMTP_HOST }}" >> .env
-        echo "SMTP_PORT=${{ secrets.SMTP_PORT }}" >> .env
-        echo "SMTP_SERVICE=${{ secrets.SMTP_SERVICE }}" >> .env
-        echo "SMTP_MAIL=${{ secrets.SMTP_MAIL }}" >> .env
-        echo "SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}" >> .env
+        mkdir -p build
+        touch build/.env
+        echo "PORT=${{ secrets.PORT }}" >> build/.env
+        echo "ORIGIN=${{ secrets.ORIGIN }}" >> build/.env
+        echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> build/.env
+        echo "DB_URL=${{ secrets.DB_URL }}" >> build/.env
+        echo "CLOUD_NAME=${{ secrets.CLOUD_NAME }}" >> build/.env
+        echo "CLOUD_API_KEY=${{ secrets.CLOUD_API_KEY }}" >> build/.env
+        echo "CLOUD_SECRET_KEY=${{ secrets.CLOUD_SECRET_KEY }}" >> build/.env
+        echo "REDIS_URL=${{ secrets.REDIS_URL }}" >> build/.env
+        echo "ACTIVATION_SECRET=${{ secrets.ACTIVATION_SECRET }}" >> build/.env
+        echo "SMTP_HOST=${{ secrets.SMTP_HOST }}" >> build/.env
+        echo "SMTP_PORT=${{ secrets.SMTP_PORT }}" >> build/.env
+        echo "SMTP_SERVICE=${{ secrets.SMTP_SERVICE }}" >> build/.env
+        echo "SMTP_MAIL=${{ secrets.SMTP_MAIL }}" >> build/.env
+        echo "SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}" >> build/.env
 
     - name: Restart PM2 process
-      run: pm2 restart api/v1
+      run: pm2 restart build/server.js --name api/v1
