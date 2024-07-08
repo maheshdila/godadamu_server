@@ -48,5 +48,8 @@ jobs:
         echo "SMTP_MAIL=${{ secrets.SMTP_MAIL }}" >> build/.env
         echo "SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}" >> build/.env
 
+    - name: Move mails directory to build directory
+      run: mv mails build/
+
     - name: Restart PM2 process
       run: pm2 restart build/server.js --name api
