@@ -1,0 +1,51 @@
+name: Node.js CI
+
+on:
+  push:
+    branches: [ "dev" ]
+
+jobs:
+  build:
+    runs-on: self-hosted
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Compile TypeScript
+      run: npx tsc
+
+    - name: Build the application
+      run: npm run build --if-present
+
+    - name: Set up environment variables
+      run: |
+        touch .env
+        echo "PORT=${{ secrets.PORT }}" >> .env
+        echo "ORIGIN=${{ secrets.ORIGIN }}" >> .env
+        echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> .env
+        echo "DB_URL=${{ secrets.DB_URL }}" >> .env
+        echo "CLOUD_NAME=${{ secrets.CLOUD_NAME }}" >> .env
+        echo "CLOUD_API_KEY=${{ secrets.CLOUD_API_KEY }}" >> .env
+        echo "CLOUD_SECRET_KEY=${{ secrets.CLOUD_SECRET_KEY }}" >> .env
+        echo "REDIS_URL=${{ secrets.REDIS_URL }}" >> .env
+        echo "ACTIVATION_SECRET=${{ secrets.ACTIVATION_SECRET }}" >> .env
+        echo "SMTP_HOST=${{ secrets.SMTP_HOST }}" >> .env
+        echo "SMTP_PORT=${{ secrets.SMTP_PORT }}" >> .env
+        echo "SMTP_SERVICE=${{ secrets.SMTP_SERVICE }}" >> .env
+        echo "SMTP_MAIL=${{ secrets.SMTP_MAIL }}" >> .env
+        echo "SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}" >> .env
+
+    - name: Restart PM2 process
+      run: pm2 restart api
