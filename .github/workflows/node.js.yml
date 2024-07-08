@@ -49,4 +49,4 @@ jobs:
         echo "SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}" >> build/.env
 
     - name: Restart PM2 process
-      run: pm2 restart build/server.js --name api/v1
+      run: pm2 restart build/server.js --name api
