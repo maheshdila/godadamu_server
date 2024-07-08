@@ -36,7 +36,7 @@ jobs:
         echo "PORT=${{ secrets.PORT }}" >> build/.env
         echo "ORIGIN=${{ secrets.ORIGIN }}" >> build/.env
         echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> build/.env
-        echo "DB_URL=${{ secrets.DB_URL }}" >> build/.env
+        echo "MONGO_DB_URL=${{ secrets.MONGO_DB_URL }}" >> build/.env
         echo "CLOUD_NAME=${{ secrets.CLOUD_NAME }}" >> build/.env
         echo "CLOUD_API_KEY=${{ secrets.CLOUD_API_KEY }}" >> build/.env
         echo "CLOUD_SECRET_KEY=${{ secrets.CLOUD_SECRET_KEY }}" >> build/.env
