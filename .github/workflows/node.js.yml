@@ -31,7 +31,7 @@ jobs:
 
     - name: Set up environment variables
       run: |
-        touch .build/.env
+        touch .env
         echo "PORT=${{ secrets.PORT }}" >> .env
         echo "ORIGIN=${{ secrets.ORIGIN }}" >> .env
         echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> .env
