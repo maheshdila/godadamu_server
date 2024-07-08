@@ -31,7 +31,7 @@ jobs:
 
     - name: Set up environment variables
       run: |
-        touch .env
+        touch .build/.env
         echo "PORT=${{ secrets.PORT }}" >> .env
         echo "ORIGIN=${{ secrets.ORIGIN }}" >> .env
         echo "NODE_ENV=${{ secrets.NODE_ENV }}" >> .env
@@ -48,4 +48,4 @@ jobs:
         echo "SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}" >> .env
 
     - name: Restart PM2 process
-      run: pm2 restart api
+      run: pm2 restart api/v1
