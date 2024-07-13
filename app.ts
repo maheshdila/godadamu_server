@@ -19,7 +19,7 @@ app.use(cookieParser());
 //    origin:process.env.ORIGIN}));
 
 app.use(cors({
-    origin:"http://54.163.49.59"}));
+    origin:"http://54.85.143.232"}));
     
 
 //http://54.163.49.59    
