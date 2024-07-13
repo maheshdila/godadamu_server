@@ -15,9 +15,14 @@ app.use(express.json({limit:"50mb"}));
 app.use(cookieParser());
 
 //cors = cross origin resources
-app.use(cors({
-    origin:process.env.ORIGIN}));
+//app.use(cors({
+//    origin:process.env.ORIGIN}));
 
+app.use(cors({
+    origin:"http://3.85.93.51"}));
+    
+
+//http://54.163.49.59    
 app.use("/api/v1", userRouter);
 
 //testing api
