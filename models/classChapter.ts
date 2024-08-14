@@ -1,23 +1,21 @@
 import mongoose, { Document, Schema } from "mongoose";
-import { ClassType, Month , subjects} from "../utils/enums";
+import { ClassType, Month,subjects } from "../utils/enums";
 
-export interface IClass extends Document {
-  id : string;
-  subject: subjects ;
-  year: number;
-  month: Month;
+import { classSchema } from "./class.model";
+import { IClass } from "./class.model";
+
+export interface IClassChapter extends IClass{
+  chapterName: string;
+  weeknumber: number;
+  liveLink: string;
+  date: Date;
   
-  description: string;
-  thumbnail: {
-    public_id: string;
-    url: string;
-  };
-  classType: ClassType;
-  weeks: number;
 }
 
-const classSchema: Schema<IClass> = new mongoose.Schema({
-  id: {
+const classChapterSchema: Schema<IClassChapter> = new mongoose.Schema({
+...classSchema.obj,
+  
+id: {
     type: String,
     required: true,
     trim: true,
@@ -61,9 +59,24 @@ const classSchema: Schema<IClass> = new mongoose.Schema({
     enum: Object.values(Month),
     required: true,
   },
+chapterName: {
+    type: String,
+    required: true,
+},
+weeknumber: {
+    type: Number,
+    required: true,
+},
+liveLink: {
+    type: String,
+    required: true,
+},
+date: {
+    type: Date,
+    required: true,
+},
 });
 
-const Class = mongoose.model<IClass>('Class', classSchema);
+const ClassChapter = mongoose.model<IClassChapter>('ClassChapter', classChapterSchema);
 
-export default Class;
-export { classSchema };
+export default ClassChapter;
