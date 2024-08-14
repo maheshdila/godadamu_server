@@ -58,4 +58,33 @@ export const updateClass = catchAsyncErrors(async (req: Request, res: Response, 
   }
 });
 
+//get classes by subject
+export const getClassesBySubject = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const classes = await Class.find({ subject: req.params.subject });
+    if (classes.length === 0) {
+      return next(new ErrorHandler('No classes found', 404));
+    }
+    res.status(200).json(classes);
+    
+  } catch (error) {
+    next(new ErrorHandler("couldn't complete the request", 500));
+  }
+});
+
+//get classes by year
+export const getClassesByYear = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const classes = await Class.find({ year: req.params.year });
+    if (classes.length === 0) {
+      return next(new ErrorHandler('No classes found', 404));
+    }
+    res.status(200).json(classes);
+  } catch (error) {
+    next(new ErrorHandler("couldn't complete the request", 500));
+  }
+});
+
+
+
 // Delete a class by ID
