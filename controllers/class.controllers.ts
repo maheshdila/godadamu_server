@@ -9,7 +9,7 @@ export const createClass = catchAsyncErrors(async (req: Request, res: Response, 
     const newClass = new classModel(req.body);
     //check if class already exists
     const isClassExist = await classModel
-        .findOne({ subject: newClass.subject, year: newClass.year, month: newClass.month });
+        .findOne({ subject: newClass.subject, year: newClass.year, month: newClass.month , classType: newClass.classType });
     if (isClassExist) {
         return next(new ErrorHandler('Class already exists', 400));
         }
@@ -33,7 +33,7 @@ export const getClasses = catchAsyncErrors(async (req: Request, res: Response, n
 // Get a single class by ID
 export const getClassById = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const classItem = await classModel.findById(req.params.id);
+    const classItem = await classModel.findById(req.query.id);
     if (classItem) {
       res.status(200).json(classItem);
     } else {
@@ -61,7 +61,7 @@ export const updateClass = catchAsyncErrors(async (req: Request, res: Response, 
 //get classes by subject
 export const getClassesBySubject = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const classes = await classModel.find({ subject: req.params.subject });
+    const classes = await classModel.find({ subject: req.query.subject });
     if (classes.length === 0) {
       return next(new ErrorHandler('No classes found', 404));
     }
@@ -75,7 +75,7 @@ export const getClassesBySubject = catchAsyncErrors(async (req: Request, res: Re
 //get classes by year
 export const getClassesByYear = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const classes = await classModel.find({ year: req.params.year });
+    const classes = await classModel.find({ year: req.query.year });
     if (classes.length === 0) {
       return next(new ErrorHandler('No classes found', 404));
     }
