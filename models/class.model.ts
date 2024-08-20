@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, Model, Schema } from "mongoose";
 import { ClassType, Month , subjects} from "../utils/enums";
 
 export interface IClass extends Document {
@@ -63,7 +63,7 @@ const classSchema: Schema<IClass> = new mongoose.Schema({
   },
 });
 
-const Class = mongoose.model<IClass>('Class', classSchema);
+const classModel: Model<IClass>= mongoose.model<IClass>('Class', classSchema);
 
-export default Class;
+export default classModel;
 export { classSchema };

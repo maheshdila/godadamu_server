@@ -1,14 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
-import Class, {IClass} from '../models/class.model';
+import classModel , {IClass} from '../models/class.model';
 import ErrorHandler from '../utils/ErrorHandler';
 import { catchAsyncErrors } from '../middleware/catchAsyncErrors';
 
 // Create a new class
 export const createClass = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const newClass = new Class(req.body);
+    const newClass = new classModel(req.body);
     //check if class already exists
-    const isClassExist = await Class
+    const isClassExist = await classModel
         .findOne({ subject: newClass.subject, year: newClass.year, month: newClass.month });
     if (isClassExist) {
         return next(new ErrorHandler('Class already exists', 400));
@@ -23,7 +23,7 @@ export const createClass = catchAsyncErrors(async (req: Request, res: Response, 
 // Get all classes
 export const getClasses = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const classes = await Class.find();
+    const classes = await classModel.find();
     res.status(200).json(classes);
   } catch (error) {
     next(new ErrorHandler("error in retreiving the classes", 500));
@@ -33,7 +33,7 @@ export const getClasses = catchAsyncErrors(async (req: Request, res: Response, n
 // Get a single class by ID
 export const getClassById = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const classItem = await Class.findById(req.params.id);
+    const classItem = await classModel.findById(req.params.id);
     if (classItem) {
       res.status(200).json(classItem);
     } else {
@@ -47,7 +47,7 @@ export const getClassById = catchAsyncErrors(async (req: Request, res: Response,
 // Update a class by ID
 export const updateClass = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const updatedClass = await Class.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updatedClass = await classModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (updatedClass) {
       res.status(200).json(updatedClass);
     } else {
@@ -61,7 +61,7 @@ export const updateClass = catchAsyncErrors(async (req: Request, res: Response, 
 //get classes by subject
 export const getClassesBySubject = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const classes = await Class.find({ subject: req.params.subject });
+    const classes = await classModel.find({ subject: req.params.subject });
     if (classes.length === 0) {
       return next(new ErrorHandler('No classes found', 404));
     }
@@ -75,7 +75,7 @@ export const getClassesBySubject = catchAsyncErrors(async (req: Request, res: Re
 //get classes by year
 export const getClassesByYear = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const classes = await Class.find({ year: req.params.year });
+    const classes = await classModel.find({ year: req.params.year });
     if (classes.length === 0) {
       return next(new ErrorHandler('No classes found', 404));
     }
@@ -88,3 +88,15 @@ export const getClassesByYear = catchAsyncErrors(async (req: Request, res: Respo
 
 
 // Delete a class by ID
+export const deleteClass = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const deletedClass = await classModel.findByIdAndDelete(req.params.id);
+    if (deletedClass) {
+      res.status(204).json(deletedClass);
+    } else {
+      next(new ErrorHandler('Class not found', 404));
+    }
+  } catch (error) {
+    next(new ErrorHandler("couldn't complete the request", 500));
+  }
+});
