@@ -151,6 +151,9 @@ export const loginUser = catchAsyncErrors( async (req:Request,res:Response,next:
         }
         const isPasswordMatched = user.comparePassword(password)
     }
+    catch(err:any){
+        return next(new ErrorHandler(err.message,400));
+    }
 }
 
 )
