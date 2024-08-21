@@ -18,7 +18,7 @@ export enum Month{
     December = 'December',
 }
 export enum subjects{
-    CombinedMaths = 'CombinedMaths',
+    CombinedMaths = 'Combined Math',
     Physics = 'Physics',
     Chemistry = 'Chemistry',
     Biology = 'Biology',

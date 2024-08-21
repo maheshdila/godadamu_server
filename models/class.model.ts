@@ -2,7 +2,7 @@ import mongoose, { Document, Model, Schema } from "mongoose";
 import { ClassType, Month , subjects} from "../utils/enums";
 
 export interface IClass extends Document {
-  id : string;
+  // id : string;
   subject: subjects ;
   year: number;
   month: Month;
@@ -17,11 +17,11 @@ export interface IClass extends Document {
 }
 
 const classSchema: Schema<IClass> = new mongoose.Schema({
-  id: {
-    type: String,
-    required: true,
-    trim: true,
-  },
+  // id: {
+  //   type: String,
+  //   required: true,
+  //   trim: true,
+  // },
   subject: {
     type: String,
     enum: Object.values(subjects),

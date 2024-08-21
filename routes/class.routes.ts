@@ -1,15 +1,15 @@
 import express from 'express';
-import { createClass, getClasses, getClassById, updateClass, getClassesByYear,getClassesBySubject, deleteClass } from '../controllers/class.controllers';
+import { createClass,updateClassBySubjectYearTypeMonth, getClassBySubjectYearTypeMonth, getClasses, updateClass, getClassesByYear,getClassesBySubject, deleteClass } from '../controllers/class.controllers';
 
 const classRouter = express.Router();
 
 classRouter.post('/create-class', createClass);
-classRouter.get('/get-classes', getClasses);
-classRouter.get('/get-class', getClassById);
-classRouter.put('/update-class/:id', updateClass);
-classRouter.get('/get-classes-by-year/:year', getClassesByYear);
-classRouter.get('/get-classes-by-subject/:subject', getClassesBySubject);
-classRouter.delete('/delete-class/:id', deleteClass);
+classRouter.get('/all-classes', getClasses);
+classRouter.put('/update', updateClassBySubjectYearTypeMonth);
+classRouter.get('/classes-by-year', getClassesByYear);
+classRouter.get('/classes-by-subject', getClassesBySubject);
+classRouter.delete('/delete-class', deleteClass);
+classRouter.get('/class-by-subject-year-type-month', getClassBySubjectYearTypeMonth);
 
 
 

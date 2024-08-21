@@ -30,10 +30,11 @@ export const getClasses = catchAsyncErrors(async (req: Request, res: Response, n
   }
 });
 
-// Get a single class by ID
-export const getClassById = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+
+//get class by subject, year,classType and month
+export const getClassBySubjectYearTypeMonth = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const classItem = await classModel.findById(req.query.id);
+    const classItem = await classModel.findOne({ subject: req.query.subject, year: req.query.year, month: req.query.month , classType: req.query.classType });
     if (classItem) {
       res.status(200).json(classItem);
     } else {
@@ -57,6 +58,22 @@ export const updateClass = catchAsyncErrors(async (req: Request, res: Response, 
     next(new ErrorHandler("couldn't complete the request", 400));
   }
 });
+// update a class by subject, year, month and classType
+export const updateClassBySubjectYearTypeMonth = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const updatedClass = await classModel
+      .findOneAndUpdate({ subject: req.query.subject, year: req.query.year, month: req.query.month , classType: req.query.classType }, req.body, { new: true });
+    if (updatedClass) {
+      res.status(200).json(updatedClass);
+    }
+    else {
+      next(new ErrorHandler('Class not found', 404));
+    }
+  } catch (error) {
+    next(new ErrorHandler("couldn't complete the request", 400));
+  }
+}
+);
 
 //get classes by subject
 export const getClassesBySubject = catchAsyncErrors(async (req: Request, res: Response, next: NextFunction) => {
