@@ -7,7 +7,7 @@ import {ErrorMiddleware} from "./middleware/error";   //importing error middlewa
 
 import userRouter from "./routes/user.routes";
 
-
+import classRouter from "./routes/class.routes";
 //body parser
 app.use(express.json({limit:"50mb"}));
 
@@ -24,6 +24,7 @@ app.use(cors({
 
 //http://54.163.49.59    
 app.use("/api/v1", userRouter);
+app.use("/api/v1/class", classRouter);
 
 //testing api
 app.get("/api/v1/test", (req:Request,res:Response,next:NextFunction)=>{
