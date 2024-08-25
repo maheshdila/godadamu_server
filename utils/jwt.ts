@@ -2,6 +2,7 @@ require('dotenv').config();
 import {Response} from 'express';
 import {IUser} from '../models/user.model';
 import {redis} from "./redis";
+import ErrorHandler from './ErrorHandler';
 
 interface ITokenOptions {
     expires:Date;
@@ -13,18 +14,18 @@ interface ITokenOptions {
 
 //parse environment variables to integrates with fallback values
 const accessTokenExpire = parseInt(
-    process.env.ACCESS_TOKEN_EXPIRE || "72",
+    process.env.ACCESS_TOKEN_EXPIRE || "5",
     10
 );
 
 const refreshTokenExpire = parseInt(
-    process.env.REFRESH_TOKEN_EXPIRE||"5",
+    process.env.REFRESH_TOKEN_EXPIRE||"72",
     10
 );
 
 //options for cookies
 export const accessTokenOptions:ITokenOptions = {
-    expires: new Date(Date.now() + accessTokenExpire*3600*1000),
+    expires: new Date(Date.now() + accessTokenExpire*60*1000), //
     maxAge:accessTokenExpire*3600*1000,
     httpOnly:true,
     sameSite:"none",
@@ -44,7 +45,12 @@ export const sendToken = (user:IUser,statusCode:number,res:Response) =>{
     const refreshToken = user.SignRefreshToken();
 
     // upload session to redis
-    redis.set(user.id, JSON.stringify(user) as any,);
+    try{
+        redis.set(user.id, JSON.stringify(user) as any,);
+    }catch(err:any){
+        return new ErrorHandler(err.message,400)
+    }
+    
 
     res.cookie("access_token", accessToken,accessTokenOptions);
     res.cookie("refresh_token", refreshToken, refreshTokenOptions);

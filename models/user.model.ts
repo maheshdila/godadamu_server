@@ -73,19 +73,19 @@ userSchema.pre<IUser>("save", async function (next) {
   next();
 });
 
-// // sign access token
-// userSchema.methods.SignAccessToken = function () {
-//   return jwt.sign({ id: this._id }, process.env.ACCESS_TOKEN || "", {
-//     expiresIn: "5m",
-//   });
-// };
+// sign access token
+userSchema.methods.SignAccessToken = function () {
+  return jwt.sign({ id: this._id }, process.env.ACCESS_TOKEN_SECRET || "", {
+    expiresIn: "5m",
+  });
+};
 
-// // sign refresh token
-// userSchema.methods.SignRefreshToken = function () {
-//   return jwt.sign({ id: this._id }, process.env.REFRESH_TOKEN || "", {
-//     expiresIn: "3d",
-//   });
-// };
+// sign refresh token
+userSchema.methods.SignRefreshToken = function () {
+  return jwt.sign({ id: this._id }, process.env.REFRESH_TOKEN_SECRET || "", {
+    expiresIn: "3d",
+  });
+};
 
 // compare password
 userSchema.methods.comparePassword = async function (

@@ -130,3 +130,30 @@ export const activateUser = catchAsyncErrors(
 
     }
 )
+
+//login user
+
+interface IloginRequest{
+    email:string;
+    password: string;
+}
+
+export const loginUser = catchAsyncErrors( async (req:Request,res:Response,next:NextFunction)=>{
+    try{
+        const {email, password} = req.body as IloginRequest;
+        if(!email || !password){
+            return next(new ErrorHandler("Invalid email or password",400));
+        }
+        const user = await userModel.findOne({email}).select("password");
+
+        if(!user){
+            return next (new ErrorHandler("user not found", 404));
+        }
+        const isPasswordMatched = user.comparePassword(password)
+    }
+    catch(err:any){
+        return next(new ErrorHandler(err.message,400));
+    }
+}
+
+)
